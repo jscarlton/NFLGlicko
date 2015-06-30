@@ -5,7 +5,7 @@
 library(PlayerRatings)
 
 # Import the 2014 NFL data. Will do other data later.
-nfl2014 <- read.csv("./nfl_results/nfl 2014.csv", header = TRUE)
+nfl2014 <- read.csv("./data/nfl 2014.csv", header = TRUE)
 
 # PlayerRatings asks for a dataframe with:
 #   (1) a numeric vector denoting the time period in which the game took place
