@@ -22,3 +22,13 @@ nfl2014$visiting_team <- as.character(nfl2014$visiting_team)
 
 # Glicko analysis for the full 2014 season. Note that only 4 columns from nfl2014 are used.
 nflGlicko2014 <- glicko(nfl2014[,c(2,4,7,8)], history = TRUE)
+
+# Plot of the NFC South as a proof of concept. Colors from teamcolorcodes.com, except Tampa which was pulled from a picture of the creamsicle uniforms.
+plot(nflGlicko2014, players = c("Saints", "Falcons", "Buccaneers", "Panthers"), lty=1, col = c("Black", "#BD0D18", "#E47924", "#0088CE"), main = "2014 NFC South Glicko Ratings", xlab = "Week", xaxt = "n")
+abline(h = 2222.673, lty=2)
+axis(1,at = seq(1,21, by = 1), label = seq(1,21, by = 1), cex.axis = 0.8)
+text(20,2213, "Panthers", cex = 0.8)
+text(20,2154, "Saints", cex = 0.8)
+text(20,2119, "Falcons", cex = 0.8)
+text(20,1867, "Buccaneers :(", cex = 0.8)
+text(15,2242, "League average", cex = 0.8) # hand-calculated
