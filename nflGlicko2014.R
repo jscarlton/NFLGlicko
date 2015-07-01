@@ -20,8 +20,5 @@ nfl2014$result <- ifelse(nfl2014$home_score>nfl2014$visitors_score, 1, ifelse(nf
 nfl2014$home_team <- as.character(nfl2014$home_team)
 nfl2014$visiting_team <- as.character(nfl2014$visiting_team)
 
-# Create the dataframe for the glicko analysis
-nfl2014Glicko <- nfl2014[,c(2,4,7,8)]
-
-# Glicko analysis for the full 2014 season
-nflGlicko <- glicko(nfl2014Glicko, history = TRUE)
+# Glicko analysis for the full 2014 season. Note that only 4 columns from nfl2014 are used.
+nflGlicko2014 <- glicko(nfl2014[,c(2,4,7,8)], history = TRUE)
