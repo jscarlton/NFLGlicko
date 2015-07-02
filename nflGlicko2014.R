@@ -47,3 +47,18 @@ text (1:32, par("usr")[3] - 0.25, srt = 90, adj = 1.3,
 arrows(x,lowerCI,x,upperCI,code=3,length=0.2,angle=90,col='black')
 abline(h = 2222.673, lty=2) #hand-calcuated league average
 text(5, 1660, "whodatreport.com", cex = 0.6)
+
+# Vertical plot of point estimates ± the deviation.
+## set numbers for y-axis categories
+y <- 1:32
+
+## Create the labels
+yLabels <- c(nflGlicko2014$ratings$Player)
+## now the plot
+plot(x~nflGlicko2014$ratings$Rating,,cex=1.5,yaxt='n',ylim=c(1,32), xlim = c(1650,2650), ylab='',xlab='Glicko rating', main='Final 2014 Glicko ratings',col='gray',pch=16)
+axis(2, at=y, cex.axis = 0.5, labels = FALSE)
+text (par("usr")[3] - 0.25,1:32, srt = 90, adj = 1.3,
+      labels = yLabels, xpd = TRUE, cex = 0.8)
+arrows(x,lowerCI,x,upperCI,code=3,length=0.2,angle=90,col='black')
+abline(v = 2222.673, lty=2) #hand-calcuated league average
+text(5, 1660, "whodatreport.com", cex = 0.6)
