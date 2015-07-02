@@ -32,3 +32,18 @@ text(20,2154, "Saints", cex = 0.8)
 text(20,2119, "Falcons", cex = 0.8)
 text(20,1867, "Buccaneers :(", cex = 0.8)
 text(15,2242, "League average", cex = 0.8) # hand-calculated
+
+# Plot of point estimates ± the deviation
+## set numbers for x-axis categories
+x <- 1:32
+
+## Create the labels
+xLabels <- c(nflGlicko2014$ratings$Player)
+## now the plot
+plot(nflGlicko2014$ratings$Rating~x,,cex=1.5,xaxt='n',xlim=c(1,32), ylim = c(1650,2650), xlab='',ylab='Glicko rating', main='Final 2014 Glicko ratings',col='gray',pch=16)
+axis(1, at=x, cex.axis = 0.5, labels = FALSE)
+text (1:32, par("usr")[3] - 0.25, srt = 90, adj = 1.3,
+      labels = xLabels, xpd = TRUE, cex = 0.8)
+arrows(x,lowerCI,x,upperCI,code=3,length=0.2,angle=90,col='black')
+abline(h = 2222.673, lty=2) #hand-calcuated league average
+text(5, 1660, "whodatreport.com", cex = 0.6)
