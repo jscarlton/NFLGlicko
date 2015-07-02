@@ -34,9 +34,13 @@ text(20,1867, "Buccaneers :(", cex = 0.8)
 text(15,2242, "League average", cex = 0.8) # hand-calculated
 
 # Plot of point estimates ± the deviation
+
 ## set numbers for x-axis categories
 x <- 1:32
 
+## set the confidence intervals:
+upperCI <-nflGlicko2014$ratings$Rating + nflGlicko2014$ratings$Deviation
+lowerCI <-nflGlicko2014$ratings$Rating - nflGlicko2014$ratings$Deviation
 ## Create the labels
 xLabels <- c(nflGlicko2014$ratings$Player)
 ## now the plot
@@ -49,16 +53,15 @@ abline(h = 2222.673, lty=2) #hand-calcuated league average
 text(5, 1660, "whodatreport.com", cex = 0.6)
 
 # Vertical plot of point estimates ± the deviation.
-## set numbers for y-axis categories
-y <- 1:32
+## set numbers for y-axis categories. Go in reverse order so the best team is on top.
+y <- 32:1
 
 ## Create the labels
 yLabels <- c(nflGlicko2014$ratings$Player)
-## now the plot
-plot(x~nflGlicko2014$ratings$Rating,,cex=1.5,yaxt='n',ylim=c(1,32), xlim = c(1650,2650), ylab='',xlab='Glicko rating', main='Final 2014 Glicko ratings',col='gray',pch=16)
-axis(2, at=y, cex.axis = 0.5, labels = FALSE)
-text (par("usr")[3] - 0.25,1:32, srt = 90, adj = 1.3,
-      labels = yLabels, xpd = TRUE, cex = 0.8)
-arrows(x,lowerCI,x,upperCI,code=3,length=0.2,angle=90,col='black')
+
+## now the plot. Notice the use of rev() to reverse the order so that the best team is on top.
+plot(x~rev(nflGlicko2014$ratings$Rating),,cex=1.5,yaxt='n',ylim=c(1,32), xlim = c(1650,2650), ylab='',xlab='Glicko rating', main='Final 2014 Glicko ratings',col='gray',pch=16)
+axis(2, at=y, labels = yLabels, las = 2, cex.axis = 1)
+arrows(lowerCI,y,upperCI,y, code=3,length=0.2,angle=90,col='black')
 abline(v = 2222.673, lty=2) #hand-calcuated league average
-text(5, 1660, "whodatreport.com", cex = 0.6)
+text(2560,0.5, "whodatreport.com", cex = 0.6)
