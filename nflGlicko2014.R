@@ -30,29 +30,8 @@ nfl2014$visiting_team <- as.character(nfl2014$visiting_team)
 # Glicko analysis for the full 2013 season. Note that only 4 columns from nfl2014 are used.
 nflGlicko2013 <- glicko(nfl2013[,c(2,4,7,8)], history = TRUE)
 
-# Since some regression to the mean would be expected, let's mean-revert
-# the 2013 ratings and deviations before using them as the status for the initial 2014 ratings.
-
-# Pull out just the Player, Rating, and Deviation
-seed2013 <- nflGlicko2013$ratings[,c(1,2,3)]
-
-# Calculate the mean Rating and Deviation
-seed2013RatingMean <- mean(seed2013$Rating)
-seed2013DeviationMean <- mean (seed2013$Deviation)
-
-# Subtract 25% of the difference between good teams and the mean ratings and deviations and add 25% of the difference for bad teams
-
-seed2013Reverted <- seed2013
-
-seed2013Reverted$ReversionAmount <- seed2013Reverted$Rating - seed2013RatingMean
-seed2013Reverted$Rating <- seed2013Reverted$Rating - (.25*seed2013Reverted$ReversionAmount)
-
-# Same for deviations
-seed2013Reverted$ReversionAmountD <- seed2013Reverted$Deviation - seed2013DeviationMean
-seed2013Reverted$Deviation <- seed2013Reverted$Deviation - (.25*seed2013Reverted$ReversionAmountD)
-
 # Glicko analysis for 2014 season
-nflGlicko2014 <- glicko(nfl2014[,c(2,4,7,8)], history = TRUE, status = seed2013Reverted)
+nflGlicko2014 <- glicko(nfl2014[,c(2,4,7,8)], history = TRUE, status = nflGlicko2013$ratings)
 # Plot of the NFC South as a proof of concept. Colors from teamcolorcodes.com, except Tampa which was pulled from a picture of the creamsicle uniforms.
 plot(nflGlicko2014, players = c("Saints", "Falcons", "Buccaneers", "Panthers"), lty=1, col = c("Black", "#BD0D18", "#E47924", "#0088CE"), main = "2014 NFC South Glicko Ratings", xlab = "Week", xaxt = "n")
 abline(h = 2222.673, lty=2)
