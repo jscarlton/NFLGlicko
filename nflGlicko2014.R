@@ -7,7 +7,7 @@ library(PlayerRatings)
 # Import the 2014 NFL data.
 nfl2014 <- read.csv("./data/nfl 2014.csv", header = TRUE)
 
-# Import the 2013 NFL data to use as a seed for 2014.
+# Import the 2012-13 NFL data to use as a seeds.
 nfl2013 <- read.csv("./data/nfl 2013.csv", header = TRUE)
 
 # PlayerRatings asks for a dataframe with:
