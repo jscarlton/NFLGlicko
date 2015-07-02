@@ -4,8 +4,11 @@
 # Task:         Initial Glicko ratings for 2014 NFL data
 library(PlayerRatings)
 
-# Import the 2014 NFL data. Will do other data later.
+# Import the 2014 NFL data.
 nfl2014 <- read.csv("./data/nfl 2014.csv", header = TRUE)
+
+# Import the 2013 NFL data to use as a seed for 2014.
+nfl2013 <- read.csv("./data/nfl 2013.csv", header = TRUE)
 
 # PlayerRatings asks for a dataframe with:
 #   (1) a numeric vector denoting the time period in which the game took place
@@ -14,15 +17,21 @@ nfl2014 <- read.csv("./data/nfl 2014.csv", header = TRUE)
 #   (4) the result of the game expressed as a number, typically equal to one for a player one win, zero for a player two win and one half for a draw.
 
 # Calculate the results column.
+nfl2013$result <- ifelse(nfl2013$home_score>nfl2013$visitors_score, 1, ifelse(nfl2013$home_score<nfl2013$visitors_score,0,0.5))
 nfl2014$result <- ifelse(nfl2014$home_score>nfl2014$visitors_score, 1, ifelse(nfl2014$home_score<nfl2014$visitors_score,0,0.5))
 
 # Convert the home team and away team to characters
+nfl2013$home_team <- as.character(nfl2013$home_team)
+nfl2013$visiting_team <- as.character(nfl2013$visiting_team)
+
 nfl2014$home_team <- as.character(nfl2014$home_team)
 nfl2014$visiting_team <- as.character(nfl2014$visiting_team)
 
-# Glicko analysis for the full 2014 season. Note that only 4 columns from nfl2014 are used.
-nflGlicko2014 <- glicko(nfl2014[,c(2,4,7,8)], history = TRUE)
+# Glicko analysis for the full 2013 season. Note that only 4 columns from nfl2014 are used.
+nflGlicko2013 <- glicko(nfl2013[,c(2,4,7,8)], history = TRUE)
 
+# Glicko analysis for 2014 season
+nflGlicko2014 <- glicko(nfl2014[,c(2,4,7,8)], history = TRUE, status = nflGlicko2013$ratings)
 # Plot of the NFC South as a proof of concept. Colors from teamcolorcodes.com, except Tampa which was pulled from a picture of the creamsicle uniforms.
 plot(nflGlicko2014, players = c("Saints", "Falcons", "Buccaneers", "Panthers"), lty=1, col = c("Black", "#BD0D18", "#E47924", "#0088CE"), main = "2014 NFC South Glicko Ratings", xlab = "Week", xaxt = "n")
 abline(h = 2222.673, lty=2)
