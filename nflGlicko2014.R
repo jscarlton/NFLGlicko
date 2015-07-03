@@ -2,6 +2,7 @@
 # File:         nflGlicko2014.r
 # Date created: 2015-06-30
 # Task:         Initial Glicko ratings for 2014 NFL data
+setwd("/Users/stuartcarlton/Documents/Personal/nflAnalysis/NFLGlicko/")
 library(PlayerRatings)
 
 # Import the 2014 NFL data.
@@ -69,8 +70,11 @@ y <- 32:1
 yLabels <- c(nflGlicko2014$ratings$Player)
 
 ## now the plot. Notice the use of rev() to reverse the order so that the best team is on top.
-plot(x~rev(nflGlicko2014$ratings$Rating),,cex=1.5,yaxt='n',ylim=c(1,32), xlim = c(1650,2650), ylab='',xlab='Glicko rating', main='Final 2014 Glicko ratings',col='gray',pch=16)
-axis(2, at=y, labels = yLabels, las = 2, cex.axis = 1)
+png(filename = "2014Glicko.png", width = 800, height = 1200, bg = "white")
+par(mar = c(1,4,1,1))
+plot(x~rev(nflGlicko2014$ratings$Rating),,cex=1.5,yaxt='n',ylim=c(-2,35), xlim = c(1750,2650), ylab='',xlab='Glicko rating', main='Final 2014 Glicko ratings',col='black',pch=16)
+axis(2, at=y, labels = yLabels, las = 2, cex.axis = .8)
 arrows(lowerCI,y,upperCI,y, code=3,length=0.2,angle=90,col='black')
 abline(v = 2222.673, lty=2) #hand-calcuated league average
 text(2560,0.5, "whodatreport.com", cex = 0.6)
+dev.off()
